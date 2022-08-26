@@ -64,7 +64,7 @@ function App() {
       id="hobby" cols="30" rows="5"
         value={formData.textArea}
         onChange={handleChange}
-        placeholder="Write something about your hobbies...."
+        placeholder="Write something about   your hobbies....."
       />
        
         <input type="submit" className='submit' value="Submit" />
