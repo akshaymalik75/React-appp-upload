@@ -1,6 +1,6 @@
 const UserInfo = ({formData,handleSubmit }) => {
     let friendly=''
-    formData.isFriendly ?  friendly = "Oh great you are friendly..." : friendly = "Being friendly is a great attribute..."
+    formData.isFriendly ?  friendly = "Oh great you are friendly!!..." : friendly = "Being friendly is a great attribute..."
     return ( 
         <div className="user-info">
             
