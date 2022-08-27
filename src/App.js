@@ -1,83 +1,92 @@
+import { useState } from 'react';
 import './App.css';
-import { useState } from 'react'
+
+import Form from './Form';
+import UserInfo from './UserInfo';
 function App() {
 
-  const [formData, setFormData] = useState({
+const [showData , setShowData] = useState(true)
+const [theme,setTheme] = useState(false)
+const [formData, setFormData] = useState({
+  firstName: '',
+  lastName: '',
+  email: '',
+  textArea: '',
+  fruit: 'Apple',
+  isFriendly: true,
+  empStatus: ""
+})
+
+const dark={
+  backgroundColor:'black',
+  color:'white'
+} 
+
+const light={
+  backgroundColor:'white',
+  color:'#000'
+} 
+let mode ={}
+theme ? mode = dark : mode=light
+
+function handleTheme()
+{
+  setTheme(prev=>!prev)
+}
+
+
+function handleChange(e) {
+  const { name, value, type, checked } = e.target;
+  setFormData((prev) => {
+    return {
+      ...prev,
+      [name]: type === "checkbox" ? checked : value
+    }
+  })
+}
+
+function handleReset(e){
+  e.preventDefault()
+  setFormData(prev=>({
+    ...prev,
     firstName: '',
     lastName: '',
     email: '',
-    textArea : ''
-  })
+    textArea: '',
+    fruit: 'Apple',
+    isFriendly: true,
+    empStatus: ""
+  }))
+}
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setFormData((prev) => {
-      return {
-        ...prev,
-        [name]: value
-      }
-    })
-  }
+function handleSubmit(e)
+{
+  e.preventDefault()
+  console.log(formData)
+  setShowData(prev=>!prev)
+}
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData)
-  }
+
 
 
 
   return (
-    <div className="App">
+    <div style={mode} className="main">
 
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="firstname">First Name</label>
-        <input type="text"
-          name="firstName"
-          id="firstname"
-          placeholder='First Name'
-          value={formData.firstName}
-          onChange={handleChange}
-        />
-
-        <label htmlFor="lastname">Last Name</label>
-        <input type="text"
-          name="lastName"
-          id="lastname"
-          placeholder='Last Name'
-          value={formData.lastName}
-          onChange={handleChange}
-        />
-
-        <label htmlFor="email">Email</label>
-        <input type="email"
-          name="email"
-          id="email"
-          placeholder='Enter Email'
-          value={formData.email}
-          onChange={handleChange}
-          required
-
-        />
-      <label htmlFor="hobby">Hobbies :</label>
+      <button className='toggleMode' onClick={handleTheme}>{theme ? "Light" : "Dark"} Mode</button>
       <br />
-      <textarea name="textArea" 
-      id="hobby" cols="30" rows="5"
-        value={formData.textArea}
-        onChange={handleChange}
-        placeholder="Write something about   your hobbies....."
-      />
-       
-        <input type="submit" className='submit' value="Submit" />
-        {/* <input type="reset"  className='submit' value="Reset" /> */}
+  
 
 
-      </form>
-      <br />
-      <h1>{`firstName: ${formData.firstName}`}</h1>
-      <h1>{`Last Name: ${formData.lastName}`}</h1>
-      <h1>{`Email: ${formData.email}`}</h1>
+   {showData && <Form handleSubmit={handleSubmit} 
+   handleChange={handleChange}
+   formData={formData}
+   handleReset={handleReset}/>}
 
-    </div>
+   {!showData && <UserInfo formData={formData} handleSubmit={handleSubmit} />}
+   </div>
+
+  
   );
 }
 
